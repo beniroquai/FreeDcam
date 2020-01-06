@@ -3892,6 +3892,8 @@
         </camera2>
     </device>
 
+
+
     <device name="Sony_XperiaZ3">
         <framework>SonyCameraExtension</framework>
         <models>

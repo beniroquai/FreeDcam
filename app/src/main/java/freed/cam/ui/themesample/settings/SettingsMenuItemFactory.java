@@ -99,11 +99,12 @@ public class SettingsMenuItemFactory
                 GroupChild ipportGroup = new GroupChild(context, activityInterface.getStringFromRessources(R.string.setting_ipport_group_header));
 
                 if (true){//params.get(SettingKeys.IP_PORT) != null) {
+                    /*
                     SettingsChildMenuIPAddressProfile IPAddress = new SettingsChildMenuIPAddressProfile(context,
                             params.get(SettingKeys.VideoProfiles), R.string.setting_ipportprofile_header, R.string.setting_ipportprofile_description);
                     IPAddress.SetUiItemClickListner(click);
                     ipportGroup.addView(IPAddress);
-
+                    */
                     SettingsChildMenu_IPAddressEditor IPAddressEditor = new SettingsChildMenu_IPAddressEditor(context, R.string.setting_ipportprofile_header, R.string.setting_ipportprofile_description);
                     ipportGroup.addView(IPAddressEditor);
                 }

@@ -75,7 +75,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     private long mCaptureTimer;
     private static final long PRECAPTURE_TIMEOUT_MS = 1000;
     protected ImageCaptureHolder currentCaptureHolder;
-    private final int MAX_IMAGES = 8;
+    private final int MAX_IMAGES = 1;
     protected List<File> filesSaved;
 
     private boolean isBurstCapture = false;
@@ -323,6 +323,11 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         else {
             output = findOutputHelper.getStockOutput(cameraHolder);
         }
+        //output.raw_height = 2736;
+        //output.raw_width = 3648;
+        //output.raw_height = 5472;
+        //output.raw_width = 7296;
+
 
         //create new ImageReader with the size and format for the image, its needed for p9 else dual or single cam ignores expotime on a dng only capture....
         jpegReader = ImageReader.newInstance(output.jpeg_width, output.jpeg_height, ImageFormat.JPEG, MAX_IMAGES);
@@ -359,6 +364,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
 
         if (output.raw_format != 0)
         {
+            /*output.raw_format = 32;
+            output.raw_height = 2736;
+            output.raw_width = 3648;
+            output.raw_format = 35;
+            output.raw_height = 3840/2;
+            output.raw_width = 5120/2;
+*/
             rawReader = ImageReader.newInstance(output.raw_width, output.raw_height, output.raw_format, MAX_IMAGES);
         }
         else if (rawReader != null)

@@ -204,6 +204,7 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
 
             switch (captureType)
             {
+
                 case Jpeg:
                     if (img.getFormat() == ImageFormat.JPEG) {
                         AddImage(img);
@@ -237,7 +238,8 @@ public class ImageCaptureHolder extends CameraCaptureSession.CaptureCallback imp
                         img.close();
                     break;
                 case Dng16:
-                    if (img.getFormat() == ImageFormat.RAW_SENSOR) {
+                    Log.d(TAG, "IMAGEFORMAT"+String.valueOf(img.getFormat()));
+                    if (img.getFormat() == ImageFormat.RAW_SENSOR || img.getFormat() == ImageFormat.YUV_420_888) {
                         AddImage(img);
                         Log.d(TAG,"Add dng16");
                     }
