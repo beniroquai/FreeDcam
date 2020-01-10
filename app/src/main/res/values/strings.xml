@@ -342,5 +342,8 @@
     <string name="setting_ipportprofile_header">IP-Port Profile: </string>
     <string name="setting_ipportprofileeditor_header">IP-Port Profile Editor </string>
     <string name="setting_ipportprofile_description">Media Profile used VideoRecording</string>
+    <string name="huawei_streamsize">null</string>
+    <string name="matched_capture_sizes">null</string>
+    <string name="matched_preview_sizes">null</string>
 
 </resources>

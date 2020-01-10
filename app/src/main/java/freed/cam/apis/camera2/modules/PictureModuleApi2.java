@@ -67,6 +67,7 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
     protected Output output;
     protected ImageReader jpegReader;
     protected ImageReader rawReader;
+    protected ImageReader rawReader2;
     private final int STATE_WAIT_FOR_PRECAPTURE = 0;
     private final int STATE_WAIT_FOR_NONPRECAPTURE = 1;
     private final int STATE_PICTURE_TAKEN = 2;
@@ -189,6 +190,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             jpegReader.close();
             jpegReader = null;
         }
+        if (rawReader2 != null){
+            rawReader2.close();
+            rawReader2 = null;
+        }
     }
 
     @Override
@@ -292,6 +297,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             cameraUiWrapper.captureSessionHandler.AddSurface(jpegReader.getSurface(),false);
         if (rawReader != null)
             cameraUiWrapper.captureSessionHandler.AddSurface(rawReader.getSurface(),false);
+        if (rawReader2 != null)
+            cameraUiWrapper.captureSessionHandler.AddSurface(rawReader2.getSurface(),false);
 
         cameraUiWrapper.captureSessionHandler.CreateCaptureSession();
 
@@ -300,6 +307,8 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             cameraUiWrapper.captureSessionHandler.setImageCaptureSurface(jpegReader.getSurface());
         if (rawReader != null)
             cameraUiWrapper.captureSessionHandler.setImageCaptureSurface(rawReader.getSurface());
+        if (rawReader2 != null)
+            cameraUiWrapper.captureSessionHandler.setImageCaptureSurface(rawReader2.getSurface());
         if (parameterHandler.get(SettingKeys.M_Burst) != null)
             parameterHandler.get(SettingKeys.M_Burst).fireStringValueChanged(parameterHandler.get(SettingKeys.M_Burst).GetStringValue());
         cameraUiWrapper.firePreviewOpen();
@@ -323,11 +332,13 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         else {
             output = findOutputHelper.getStockOutput(cameraHolder);
         }
-        //output.raw_height = 2736;
-        //output.raw_width = 3648;
+        //output.raw_height = 2736+32;
+        //output.raw_width = 3648+32;
         //output.raw_height = 5472;
         //output.raw_width = 7296;
-
+        //output.raw_height = 5472;
+        //output.raw_width = 7296;
+        //output.raw_height = 35;
 
         //create new ImageReader with the size and format for the image, its needed for p9 else dual or single cam ignores expotime on a dng only capture....
         jpegReader = ImageReader.newInstance(output.jpeg_width, output.jpeg_height, ImageFormat.JPEG, MAX_IMAGES);
@@ -371,14 +382,23 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             output.raw_height = 3840/2;
             output.raw_width = 5120/2;
 */
-            rawReader = ImageReader.newInstance(output.raw_width, output.raw_height, output.raw_format, MAX_IMAGES);
+            output.raw_height = 5472;
+            output.raw_width = 7296;
+            //rawReader = ImageReader.newInstance(output.raw_width, output.raw_height, output.raw_format, MAX_IMAGES);
+            rawReader = ImageReader.newInstance(5120, 3840, output.raw_format, MAX_IMAGES);
+            rawReader = ImageReader.newInstance(7296, 5472, output.raw_format, MAX_IMAGES);
         }
         else if (rawReader != null)
         {
             cameraUiWrapper.captureSessionHandler.RemoveSurface(rawReader.getSurface());
             rawReader.close();
             rawReader = null;
+
+            cameraUiWrapper.captureSessionHandler.RemoveSurface(rawReader2.getSurface());
+            rawReader2.close();
+            rawReader2 = null;
         }
+
     }
 
 
@@ -484,7 +504,10 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
         {
             rawReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
         }
-
+        if (rawReader2 != null)
+        {
+            rawReader2.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
+        }
         //cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         //cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
         prepareCaptureBuilder(BurstCounter.getImageCaptured());

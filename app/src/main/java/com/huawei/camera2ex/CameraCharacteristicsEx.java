@@ -185,6 +185,10 @@ public class CameraCharacteristicsEx
     public static final CameraCharacteristics.Key<int[]>HUAWEI_AVAILIBLE_DEPTH_SIZES;
     public static final CameraCharacteristics.Key<int[]>HUAWEI_AVAILIBLE_PREVIEW_DEPTH_SIZES;
 
+    public static final CameraCharacteristics.Key<int[]>HUAWEI_CAPTURE_RAW_STREAM_CONFIGURATIONS;
+    public static final CameraCharacteristics.Key<int[]>HUAWEI_DUAL_MATCHED_CAPTURE_SIZES;
+    public static final CameraCharacteristics.Key<int[]>HUAWEI_DUAL_MATCHED_PREVIEW_SIZES;
+
     static {
 
         HUAWEI_FACE_BEAUTY_RANGE = getKeyClass("com.huawei.device.capabilities.faceBeautyRange", int[].class);
@@ -274,6 +278,9 @@ public class CameraCharacteristicsEx
         HUAWEI_MULTICAP = getKeyClass("com.huawei.device.capabilities.multiCameraCap",int[].class);
         HUAWEI_AVAILIBLE_DEPTH_SIZES = getKeyClass("com.huawei.device.capabilities.availableCaptureDepthSizes",int[].class);
         HUAWEI_AVAILIBLE_PREVIEW_DEPTH_SIZES = getKeyClass("com.huawei.device.capabilities.availablePreviewDepthSizes",int[].class);
+        HUAWEI_CAPTURE_RAW_STREAM_CONFIGURATIONS = getKeyType("com.huawei.device.capabilities.hwCaptureRawStreamConfigurations", int[].class);
+        HUAWEI_DUAL_MATCHED_CAPTURE_SIZES = getKeyType("com.huawei.device.capabilities.dualCaptureMatchSizes", int[].class);
+        HUAWEI_DUAL_MATCHED_PREVIEW_SIZES = getKeyType("com.huawei.device.capabilities.dualPreviewMatchSizes", int[].class);
     }
 
 

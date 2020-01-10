@@ -138,6 +138,7 @@ public class SettingKeys{
     public final static Key<ApiBooleanSettingMode> openCamera1Legacy = new Key(ApiBooleanSettingMode.class, R.string.aps_opencamera1legacy);
     public final static Key<ApiBooleanSettingMode> useHuaweiWhiteBalance = new Key(ApiBooleanSettingMode.class, R.string.aps_usehuawei_wb);
 
+    public final static Key<SettingMode> STREAM_SIZE = new Key(SettingMode.class, R.string.huawei_streamsize);
 
     public final static Key<GlobalBooleanSettingMode> useCustomMatrixOnCamera2 = new Key(GlobalBooleanSettingMode.class, R.string.aps_usecustom_matrix_oncamera2);
 
@@ -151,6 +152,9 @@ public class SettingKeys{
     public final static Key<SettingMode> ApiSettingsMode = new Key(SettingMode.class, R.string.aps_api);
     public final static Key<SettingMode> IP_PORT = new Key(SettingMode.class, R.string.aps_ip_port);
     public final static Key<SettingMode> mCropsize = new Key(SettingMode.class, R.string.aps_cropsize);
+    public static final Key<SettingMode> MATCHED_CAPTURE_SIZES = new Key(SettingMode.class, R.string.matched_capture_sizes);;
+    public static final Key<SettingMode> MATCHED_PREVIEW_SIZES = new Key(SettingMode.class, R.string.matched_preview_sizes);;
+
     /**
      *
      * @return a list with all statics keys in this class

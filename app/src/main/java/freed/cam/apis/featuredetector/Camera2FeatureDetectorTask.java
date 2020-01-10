@@ -390,6 +390,25 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
 
     private void detectHuaweiParameters(CameraCharacteristics characteristics) {
         try {
+            detectIntMode(characteristics, CameraCharacteristicsEx.HUAWEI_CAPTURE_RAW_STREAM_CONFIGURATIONS, SettingsManager.get(SettingKeys.STREAM_SIZE), R.array.dual_camera_mode);
+        }
+        catch(IllegalArgumentException ex) {
+            Log.e(TAG, "Unsupported HUAWEI_CAPTURE_RAW_STREAM_CONFIGURATIONS  false");
+        }
+        try {
+            detectIntMode(characteristics, CameraCharacteristicsEx.HUAWEI_DUAL_MATCHED_CAPTURE_SIZES, SettingsManager.get(SettingKeys.MATCHED_CAPTURE_SIZES), R.array.dual_camera_mode);
+        }
+        catch(IllegalArgumentException ex) {
+            Log.e(TAG, "Unsupported HUAWEI_DUAL_MATCHED_CAPTURE_SIZES  false");
+        }
+        try {
+            detectIntMode(characteristics, CameraCharacteristicsEx.HUAWEI_DUAL_MATCHED_PREVIEW_SIZES, SettingsManager.get(SettingKeys.MATCHED_PREVIEW_SIZES), R.array.dual_camera_mode);
+        }
+        catch(IllegalArgumentException ex) {
+            Log.e(TAG, "Unsupported HUAWEI_DUAL_MATCHED_PREVIEW_SIZES  false");
+        }
+
+        try {
                 detectByteMode(characteristics, CameraCharacteristicsEx.HUAWEI_AVAILABLE_DUAL_PRIMARY, SettingsManager.get(SettingKeys.dualPrimaryCameraMode), R.array.dual_camera_mode);
         }
         catch (IllegalArgumentException ex)
