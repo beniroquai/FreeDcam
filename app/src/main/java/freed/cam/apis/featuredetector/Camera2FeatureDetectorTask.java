@@ -391,6 +391,7 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     private void detectHuaweiParameters(CameraCharacteristics characteristics) {
         try {
             detectIntMode(characteristics, CameraCharacteristicsEx.HUAWEI_CAPTURE_RAW_STREAM_CONFIGURATIONS, SettingsManager.get(SettingKeys.STREAM_SIZE), R.array.dual_camera_mode);
+            int[] rawstreamconf  = characteristics.get(CameraCharacteristicsEx.HUAWEI_CAPTURE_RAW_STREAM_CONFIGURATIONS);
         }
         catch(IllegalArgumentException ex) {
             Log.e(TAG, "Unsupported HUAWEI_CAPTURE_RAW_STREAM_CONFIGURATIONS  false");
@@ -977,6 +978,8 @@ public class Camera2FeatureDetectorTask extends AbstractFeatureDetectorTask {
     private void detectIntMode(CameraCharacteristics characteristics, CameraCharacteristics.Key<int[]> requestKey, SettingMode settingMode, int ressourceArray)
     {
         publishProgress("detectIntMode "+settingMode+" "+ressourceArray);
+        boolean mytest = SettingsManager.getInstance().hasCamera2Features();
+        boolean mytest1 = characteristics.get(requestKey) != null;
         if (SettingsManager.getInstance().hasCamera2Features() && characteristics.get(requestKey) != null) {
             int[]  scenes = characteristics.get(requestKey);
             if (scenes.length >1)

@@ -29,6 +29,7 @@ import freed.cam.apis.basecamera.modules.ModuleHandlerAbstract;
 import freed.cam.apis.camera2.modules.AeBracketApi2;
 import freed.cam.apis.camera2.modules.AfBracketApi2;
 import freed.cam.apis.camera2.modules.CellStormModule;
+import freed.cam.apis.camera2.modules.CellStormModuleLocal;
 import freed.cam.apis.camera2.modules.HuaweiAeBracketApi2;
 import freed.cam.apis.camera2.modules.IntervalApi2;
 import freed.cam.apis.camera2.modules.PictureModuleApi2;
@@ -72,6 +73,9 @@ public class ModuleHandlerApi2 extends ModuleHandlerAbstract
         }
         CellStormModule cellStormModule = new CellStormModule(cameraUiWrapper,mBackgroundHandler,mainHandler);
         moduleList.put(cellStormModule.ModuleName(),cellStormModule);
+
+        CellStormModuleLocal cellStormModuleLocal = new CellStormModuleLocal(cameraUiWrapper,mBackgroundHandler,mainHandler);
+        moduleList.put(cellStormModuleLocal.ModuleName(),cellStormModuleLocal);
 
     }
 

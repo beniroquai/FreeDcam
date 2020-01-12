@@ -74,8 +74,8 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         midtonesp = new ColorParameter(cameraUiWrapper,midtones,50);
         highlightsp = new ColorParameter(cameraUiWrapper,highlights,75);
         whitep = new ColorParameter(cameraUiWrapper,whitepoint,100);*/
-       toneCurve = new float[]{0,0,0.25f,0.25f,0.5f,0.5f,0.75f,0.75f,1,1};
-       toneCurveParameter = new ToneCurveParameter(SettingKeys.TONE_CURVE_PARAMETER);
+        toneCurve = new float[]{0,0,0.25f,0.25f,0.5f,0.5f,0.75f,0.75f,1,1};
+        toneCurveParameter = new ToneCurveParameter(SettingKeys.TONE_CURVE_PARAMETER);
     }
 
 
@@ -83,6 +83,8 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
         boolean isSupported;
         boolean canSet;
         boolean visible;
+        if (value == null)
+            return;
         if (value.equals("CONTRAST_CURVE"))
         {
             canSet = true;
@@ -143,7 +145,8 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
             return;
         if (valueChangedEvent.key == SettingKeys.TONE_MAP_MODE)
         {
-            onStringValueChanged(valueChangedEvent.newValue);
+            if (valueChangedEvent.newValue != null)
+                onStringValueChanged(valueChangedEvent.newValue);
         }
     }
 
@@ -218,7 +221,7 @@ public class ManualToneMapCurveApi2 implements EventBusLifeCycle
                     shadows[1] = 0.25f - toset;
                 }
 
-               setTonemap();
+                setTonemap();
             }
             firststart = false;
         }

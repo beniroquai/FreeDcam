@@ -45,6 +45,8 @@ public class CellStormModule extends PictureModuleApi2 {
 
     private MySocket my_socket;
 
+    private boolean isconnected = false;
+
     private boolean doStream = true;
     private List<File> fileList;
 
@@ -66,6 +68,7 @@ public class CellStormModule extends PictureModuleApi2 {
                 try {
                     // connect to server for streaming the bytes
                     connectServer();
+                    isconnected = true;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -129,8 +132,7 @@ public class CellStormModule extends PictureModuleApi2 {
 
     @Override
     protected void prepareCaptureBuilder(int captureNum) {
-        //currentCaptureHolder.setCropSize(cropSize, cropSize);
-    }
+            }
 
     @Override
     public void internalFireOnWorkDone(File file) {
@@ -163,33 +165,40 @@ public class CellStormModule extends PictureModuleApi2 {
 
     @Override
     protected void TakePicture() {
-        isWorking = true;
-        currentCaptureHolder = new StreamAbleCaptureHolder(cameraHolder.characteristics, CaptureType.Bayer16, cameraUiWrapper.getActivityInterface(),this,this, this,my_socket);
-        ((StreamAbleCaptureHolder)currentCaptureHolder).setCropsize(cropSize);
-        currentCaptureHolder.setFilePath(getFileString(), SettingsManager.getInstance().GetWriteExternal());
-        currentCaptureHolder.setForceRawToDng(SettingsManager.get(SettingKeys.forceRawToDng).get());
-        currentCaptureHolder.setToneMapProfile(((ToneMapChooser)cameraUiWrapper.getParameterHandler().get(SettingKeys.TONEMAP_SET)).getToneMap());
-        currentCaptureHolder.setSupport12bitRaw(SettingsManager.get(SettingKeys.support12bitRaw).get());
+        if(isconnected) {
+            isWorking = true;
+            currentCaptureHolder = new StreamAbleCaptureHolder(cameraHolder.characteristics, CaptureType.Bayer16, cameraUiWrapper.getActivityInterface(), this, this, this, my_socket);
+            ((StreamAbleCaptureHolder) currentCaptureHolder).setCropsize(cropSize);
+            currentCaptureHolder.setFilePath(getFileString(), SettingsManager.getInstance().GetWriteExternal());
+            currentCaptureHolder.setForceRawToDng(SettingsManager.get(SettingKeys.forceRawToDng).get());
+            currentCaptureHolder.setToneMapProfile(((ToneMapChooser) cameraUiWrapper.getParameterHandler().get(SettingKeys.TONEMAP_SET)).getToneMap());
+            currentCaptureHolder.setSupport12bitRaw(SettingsManager.get(SettingKeys.support12bitRaw).get());
 
-        Log.d(TAG, "captureStillPicture ImgCount:"+ BurstCounter.getImageCaptured() +  " ImageCaptureHolder Path:" + currentCaptureHolder.getFilepath());
+            Log.d(TAG, "captureStillPicture ImgCount:" + BurstCounter.getImageCaptured() + " ImageCaptureHolder Path:" + currentCaptureHolder.getFilepath());
 
-        String cmat = SettingsManager.get(SettingKeys.MATRIX_SET).get();
-        if (cmat != null && !TextUtils.isEmpty(cmat) &&!cmat.equals("off")) {
-            currentCaptureHolder.setCustomMatrix(SettingsManager.getInstance().getMatrixesMap().get(cmat));
+            String cmat = SettingsManager.get(SettingKeys.MATRIX_SET).get();
+            if (cmat != null && !TextUtils.isEmpty(cmat) && !cmat.equals("off")) {
+                currentCaptureHolder.setCustomMatrix(SettingsManager.getInstance().getMatrixesMap().get(cmat));
+            }
+
+            if (jpegReader != null)
+                jpegReader.setOnImageAvailableListener(currentCaptureHolder, mBackgroundHandler);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && rawReader != null) {
+                rawReader.setOnImageAvailableListener(currentCaptureHolder, mBackgroundHandler);
+            }
+
+            //cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
+            //cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
+            prepareCaptureBuilder(BurstCounter.getImageCaptured());
+            changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
+            Log.d(TAG, "StartStillCapture");
+            captureStillPicture();
+        }
+        else{
+            super.TakePicture();
+
         }
 
-        if (jpegReader != null)
-            jpegReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && rawReader != null) {
-            rawReader.setOnImageAvailableListener(currentCaptureHolder,mBackgroundHandler);
-        }
-
-        //cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
-        //cameraUiWrapper.captureSessionHandler.CancelRepeatingCaptureSession();
-        prepareCaptureBuilder(BurstCounter.getImageCaptured());
-        changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
-        Log.d(TAG, "StartStillCapture");
-        captureStillPicture();
     }
 
     @Override
@@ -197,6 +206,10 @@ public class CellStormModule extends PictureModuleApi2 {
         Log.d(TAG, "#################### captureStillPicture #################");
         prepareCaptureBuilder(BurstCounter.getImageCaptured());
         changeCaptureState(ModuleHandlerAbstract.CaptureStates.image_capture_start);
+        if (!isconnected){
+            currentCaptureHolder.setCropSize(cropSize, cropSize);
+        }
+
         Log.d(TAG, "StartStillCapture");
         cameraUiWrapper.captureSessionHandler.StopRepeatingCaptureSession();
         cameraUiWrapper.captureSessionHandler.StartImageCapture(currentCaptureHolder, mBackgroundHandler);

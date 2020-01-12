@@ -381,13 +381,16 @@ public class PictureModuleApi2 extends AbstractModuleApi2 implements ImageCaptur
             output.raw_format = 35;
             output.raw_height = 3840/2;
             output.raw_width = 5120/2;
-*/
+
             output.raw_height = 5472;
             output.raw_width = 7296;
-            //rawReader = ImageReader.newInstance(output.raw_width, output.raw_height, output.raw_format, MAX_IMAGES);
             rawReader = ImageReader.newInstance(5120, 3840, output.raw_format, MAX_IMAGES);
-            rawReader = ImageReader.newInstance(7296, 5472, output.raw_format, MAX_IMAGES);
-        }
+            rawReader2 = ImageReader.newInstance(7296, 5472, output.raw_format, MAX_IMAGES);
+
+            */
+
+            rawReader = ImageReader.newInstance(output.raw_width, output.raw_height, output.raw_format, MAX_IMAGES);
+            }
         else if (rawReader != null)
         {
             cameraUiWrapper.captureSessionHandler.RemoveSurface(rawReader.getSurface());

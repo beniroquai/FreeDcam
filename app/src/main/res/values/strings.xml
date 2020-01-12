@@ -345,5 +345,6 @@
     <string name="huawei_streamsize">null</string>
     <string name="matched_capture_sizes">null</string>
     <string name="matched_preview_sizes">null</string>
+    <string name="module_cellstorm_local">cellL</string>
 
 </resources>
